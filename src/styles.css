@@ -142,3 +142,68 @@
     color: var(--color-foreground);
   }
 }
+
+/* ===== Sistema de diseño Coina Turística ===== */
+:root {
+  --background: oklch(0.985 0 0);            /* #FAFAFA */
+  --foreground: oklch(0.26 0.02 145);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.26 0.02 145);
+  --primary: oklch(0.649 0.157 145.6);       /* #4CAF50 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.878 0.174 96.5);      /* #FDD835 */
+  --secondary-foreground: oklch(0.28 0.05 90);
+  --accent: oklch(0.494 0.166 259);          /* #1565C0 */
+  --accent-foreground: oklch(1 0 0);
+  --sand: oklch(0.958 0.032 106);            /* #F5F5DC */
+  --sand-foreground: oklch(0.32 0.03 100);
+  --muted: oklch(0.965 0.008 120);
+  --muted-foreground: oklch(0.53 0.02 140);
+  --border: oklch(0.905 0.015 120);
+  --input: oklch(0.905 0.015 120);
+  --ring: oklch(0.649 0.157 145.6);
+  --radius: 1rem;
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --gradient-hero: linear-gradient(150deg, oklch(0.649 0.157 145.6), oklch(0.78 0.16 130) 55%, oklch(0.878 0.174 96.5));
+  --gradient-sun: linear-gradient(120deg, oklch(0.878 0.174 96.5), oklch(0.9 0.12 80));
+  --gradient-water: linear-gradient(140deg, oklch(0.494 0.166 259), oklch(0.68 0.13 235));
+  --shadow-soft: 0 10px 30px -12px oklch(0.45 0.06 145 / 0.35);
+  --shadow-lift: 0 18px 40px -18px oklch(0.45 0.08 145 / 0.45);
+}
+
+@theme inline {
+  --color-sand: var(--sand);
+  --color-sand-foreground: var(--sand-foreground);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pop: pop 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@utility bg-gradient-hero { background-image: var(--gradient-hero); }
+@utility bg-gradient-sun { background-image: var(--gradient-sun); }
+@utility bg-gradient-water { background-image: var(--gradient-water); }
+@utility font-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; }
+@utility card-coina {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+@layer base {
+  body { font-family: var(--font-body); }
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+}

@@ -1,24 +1,37 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { AppShell } from "@/components/coina/AppShell";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Coina Turística — Paraíso del Alto Chicama" },
+      {
+        name: "description",
+        content:
+          "Guía offline de ecoturismo en Coina, La Libertad: rutas, clima saludable a 1942 msnm, hospedajes, leyendas y mercado de lima dulce.",
+      },
+      { property: "og:title", content: "Coina Turística — Paraíso del Alto Chicama" },
+      {
+        property: "og:description",
+        content:
+          "Rutas, servicios, leyendas y mercado de lima dulce de Coina. Funciona sin conexión con el asistente Limi.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#4CAF50" },
+    ],
+    links: [{ rel: "manifest", href: "/manifest.webmanifest" }],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+  }, []);
+
+  return <AppShell />;
 }
