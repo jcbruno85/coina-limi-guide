@@ -204,6 +204,53 @@
   box-shadow: var(--shadow-soft);
 }
 
+/* Objetivo táctil mínimo 44x44 px (WCAG 2.5.5) */
+@utility tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Enlace de salto al contenido, visible solo al enfocar con teclado */
+@utility skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 100;
+  border-radius: 0.75rem;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: top 0.2s ease;
+  &:focus {
+    top: 0.75rem;
+  }
+}
+
+@layer base {
+  /* Navegación por teclado: indicador de foco de alto contraste */
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+  button, a, input, select, textarea, [role="button"], [role="tab"] {
+    &:focus-visible {
+      outline: 3px solid var(--ring);
+      outline-offset: 2px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+
+
 @layer base {
   body { font-family: var(--font-body); }
   h1, h2, h3, h4 { font-family: var(--font-display); }
