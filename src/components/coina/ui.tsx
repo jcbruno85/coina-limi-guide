@@ -91,23 +91,35 @@ export function Sheet({
   title: string;
   children: ReactNode;
 }) {
+  const titleId = `sheet-${title.replace(/\s+/g, "-").toLowerCase()}`;
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <button
-        aria-label="Cerrar"
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose();
+      }}
+    >
+      <div
+        aria-hidden="true"
         onClick={onClose}
-        className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-foreground/50 backdrop-blur-sm"
       />
       <div className="relative z-10 max-h-[85vh] w-full overflow-y-auto rounded-t-3xl bg-card p-5 shadow-lift animate-fade-up sm:max-w-md sm:rounded-3xl">
         <div className="mb-3 flex items-start justify-between gap-3">
-          <h3 className="text-lg leading-tight text-foreground">{title}</h3>
+          <h3 id={titleId} className="text-lg leading-tight text-foreground">
+            {title}
+          </h3>
           <button
             onClick={onClose}
-            className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted"
-            aria-label="Cerrar"
+            autoFocus
+            className="tap-target flex items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted"
+            aria-label={`Cerrar ${title}`}
           >
-            <X className="size-4" />
+            <X className="size-5" aria-hidden="true" />
           </button>
         </div>
         {children}
@@ -115,6 +127,7 @@ export function Sheet({
     </div>
   );
 }
+
 
 export function Skeleton({ className }: { className?: string | undefined }) {
   return <div className={cn("animate-pulse rounded-xl bg-muted", className)} />;
