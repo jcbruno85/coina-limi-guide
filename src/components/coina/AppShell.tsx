@@ -43,9 +43,17 @@ export function AppShell() {
 
   return (
     <div className="min-h-dvh bg-background pb-24">
+      <a href="#contenido" className="skip-link">
+        Saltar al contenido principal
+      </a>
+
       <header className="sticky top-0 z-30 border-b border-border bg-card/90 backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-hero text-lg shadow-soft">
+          <div
+            className="flex size-9 items-center justify-center rounded-xl bg-gradient-hero text-lg shadow-soft"
+            role="img"
+            aria-label="Logotipo de Coina Turística: una lima dulce"
+          >
             🍋
           </div>
           <div className="min-w-0">
@@ -54,27 +62,40 @@ export function AppShell() {
           </div>
           <button
             onClick={toggleSimulated}
-            className="ml-auto"
-            aria-label="Alternar modo sin conexión"
-            title="Simular modo sin conexión"
+            className="tap-target ml-auto flex items-center justify-end rounded-xl"
+            aria-label={
+              isOnline
+                ? "Estás en línea. Activar simulación de modo sin conexión"
+                : "Estás sin conexión. Volver al modo en línea"
+            }
+            aria-pressed={!isOnline}
           >
             <Badge tone={isOnline ? "primary" : "secondary"} className="py-1.5">
-              {isOnline ? <Wifi className="size-3.5" /> : <WifiOff className="size-3.5" />}
+              {isOnline ? (
+                <Wifi className="size-3.5" aria-hidden="true" />
+              ) : (
+                <WifiOff className="size-3.5" aria-hidden="true" />
+              )}
               {isOnline ? "Modo Online" : "Modo Sin Conexión"}
             </Badge>
           </button>
         </div>
-        {(pendientes.length > 0 || sincronizando) && (
-          <div className="flex items-center gap-2 bg-secondary/30 px-4 py-1.5 text-[11px] font-semibold text-secondary-foreground">
-            <RefreshCw className={`size-3.5 ${sincronizando ? "animate-spin" : ""}`} />
-            {sincronizando
-              ? "Sincronizando datos guardados..."
-              : `${pendientes.length} operación(es) en cola de sincronización`}
-          </div>
-        )}
+        <div aria-live="polite" role="status">
+          {(pendientes.length > 0 || sincronizando) && (
+            <div className="flex items-center gap-2 bg-secondary/40 px-4 py-1.5 text-[11px] font-semibold text-secondary-foreground">
+              <RefreshCw
+                className={`size-3.5 ${sincronizando ? "animate-spin" : ""}`}
+                aria-hidden="true"
+              />
+              {sincronizando
+                ? "Sincronizando datos guardados..."
+                : `${pendientes.length} operación(es) en cola de sincronización`}
+            </div>
+          )}
+        </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-4 py-5">
+      <main id="contenido" tabIndex={-1} className="mx-auto max-w-2xl px-4 py-5">
         {tab === "inicio" && <HomeTab isOnline={isOnline} onGoTo={(t) => setTab(t as TabId)} />}
         {tab === "explora" && <ExploreTab />}
         {tab === "servicios" && (
@@ -87,39 +108,51 @@ export function AppShell() {
         {tab === "limi" && <LimiTab isOnline={isOnline} />}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-card/95 backdrop-blur">
-        <div className="mx-auto flex max-w-2xl items-stretch justify-between px-1 pb-[env(safe-area-inset-bottom)]">
-          {tabs.map((t) => {
-            const active = tab === t.id;
-            return (
-              <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
-                className="relative flex flex-1 flex-col items-center gap-1 py-2.5 transition-colors"
-              >
-                <span
-                  className={`flex size-9 items-center justify-center rounded-xl transition-all duration-200 ${
-                    active ? "bg-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
-                  }`}
-                >
-                  <t.icon className="size-[18px]" />
-                </span>
-                <span
-                  className={`text-[10px] font-semibold ${active ? "text-primary" : "text-muted-foreground"}`}
-                >
-                  {t.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </nav>
+      <footer className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-card/95 backdrop-blur">
+        <nav aria-label="Navegación principal">
+          <ul className="mx-auto flex max-w-2xl items-stretch justify-between px-1 pb-[env(safe-area-inset-bottom)]">
+            {tabs.map((t) => {
+              const active = tab === t.id;
+              return (
+                <li key={t.id} className="flex flex-1">
+                  <button
+                    onClick={() => setTab(t.id)}
+                    aria-current={active ? "page" : undefined}
+                    aria-label={`Ir a ${t.label}`}
+                    className="tap-target relative flex flex-1 flex-col items-center justify-center gap-1 py-2.5 transition-colors"
+                  >
+                    <span
+                      className={`flex size-9 items-center justify-center rounded-xl transition-all duration-200 ${
+                        active
+                          ? "bg-primary text-primary-foreground shadow-soft"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      <t.icon className="size-[18px]" aria-hidden="true" />
+                    </span>
+                    <span
+                      className={`text-[10px] font-semibold ${active ? "text-primary" : "text-muted-foreground"}`}
+                    >
+                      {t.label}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </footer>
 
       {simulatedOffline && (
-        <p className="pointer-events-none fixed bottom-24 left-1/2 z-20 -translate-x-1/2 rounded-full bg-foreground/85 px-3 py-1.5 text-[11px] font-semibold text-background">
+        <p
+          role="status"
+          aria-live="polite"
+          className="pointer-events-none fixed bottom-24 left-1/2 z-20 -translate-x-1/2 rounded-full bg-foreground/90 px-3 py-1.5 text-[11px] font-semibold text-background"
+        >
           Simulación offline activa · toca el indicador para volver
         </p>
       )}
     </div>
   );
 }
+
