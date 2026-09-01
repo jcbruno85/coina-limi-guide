@@ -36,25 +36,37 @@ export function CultureTab() {
             <Card key={l.id} className={isOpen ? "border-primary/40" : undefined}>
               <button
                 onClick={() => setOpen(isOpen ? null : l.id)}
-                className="flex w-full items-center gap-3 p-4 text-left"
+                aria-expanded={isOpen}
+                aria-controls={`leyenda-${l.id}`}
+                className="tap-target flex w-full items-center gap-3 p-4 text-left"
               >
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-[15px] text-foreground">{l.titulo}</span>
                   <span className="block text-xs text-muted-foreground">{l.resumen}</span>
                 </span>
                 <ChevronDown
+                  aria-hidden="true"
                   className={`size-5 shrink-0 text-primary transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                 />
               </button>
               <div
+                id={`leyenda-${l.id}`}
+                role="region"
+                aria-label={l.titulo}
+                hidden={!isOpen}
                 className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
               >
                 <div className="overflow-hidden">
                   <div className="space-y-3 px-4 pb-4">
                     <p className="text-sm leading-relaxed text-foreground">{l.texto}</p>
                     <div className="flex items-center gap-2">
-                      <Btn size="sm" variant="accent" onClick={() => leer(l.texto)}>
-                        <Volume2 className="size-4" /> Escuchar audio-guía
+                      <Btn
+                        size="sm"
+                        variant="accent"
+                        onClick={() => leer(l.texto)}
+                        aria-label={`Escuchar en voz alta la leyenda ${l.titulo}`}
+                      >
+                        <Volume2 className="size-4" aria-hidden="true" /> Escuchar audio-guía
                       </Btn>
                       <Badge tone="sand">Tradición oral</Badge>
                     </div>

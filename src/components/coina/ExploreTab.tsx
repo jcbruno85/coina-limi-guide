@@ -45,8 +45,8 @@ export function ExploreTab() {
               key={a.id}
               onClick={() => setSelected(a)}
               style={{ left: `${a.mapa.x}%`, top: `${a.mapa.y}%` }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 transition-transform duration-200 hover:scale-115 active:scale-95"
-              aria-label={a.nombre}
+              className="tap-target absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center transition-transform duration-200 hover:scale-115 active:scale-95"
+              aria-label={`Ver detalle de ${a.nombre}, ${a.tipo} en el sector ${a.sector}`}
             >
               <span
                 className={`flex size-9 items-center justify-center rounded-full shadow-lift ring-2 ring-card ${pinTone[a.tipo]}`}
@@ -67,7 +67,11 @@ export function ExploreTab() {
           const Icon = iconFor(a.tipo);
           return (
             <Card key={a.id} className="p-4 transition-shadow hover:shadow-lift">
-              <button onClick={() => setSelected(a)} className="flex w-full items-start gap-3 text-left">
+              <button
+                onClick={() => setSelected(a)}
+                aria-label={`Ver detalle de ${a.nombre}`}
+                className="tap-target flex w-full items-start gap-3 text-left"
+              >
                 <span className={`rounded-xl p-2.5 ${pinTone[a.tipo]}`}>
                   <Icon className="size-5" />
                 </span>

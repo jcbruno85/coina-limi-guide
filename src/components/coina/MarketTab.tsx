@@ -49,7 +49,11 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
         {products.map((p) => (
           <Card key={p.id} className="p-4">
             <div className="flex items-start gap-3">
-              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-sun text-2xl shadow-soft">
+              <div
+                className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-sun text-2xl shadow-soft"
+                role="img"
+                aria-label={`Ilustración del producto agrícola ${p.nombre} de Coina`}
+              >
                 {p.emoji}
               </div>
               <div className="min-w-0 flex-1">
@@ -66,17 +70,30 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
                   </div>
                   {cart[p.id] ? (
                     <div className="flex items-center gap-2 rounded-xl bg-muted p-1">
-                      <Btn size="sm" variant="ghost" onClick={() => remove(p.id)}>
-                        <Minus className="size-4" />
+                      <Btn
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => remove(p.id)}
+                        aria-label={`Quitar una unidad de ${p.nombre} del carrito`}
+                      >
+                        <Minus className="size-4" aria-hidden="true" />
                       </Btn>
-                      <span className="w-5 text-center text-sm font-bold">{cart[p.id]}</span>
-                      <Btn size="sm" variant="ghost" onClick={() => add(p.id)}>
-                        <Plus className="size-4" />
+                      <span className="w-5 text-center text-sm font-bold" aria-live="polite">
+                        <span className="sr-only">{`${p.nombre}: `}</span>
+                        {cart[p.id]}
+                      </span>
+                      <Btn
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => add(p.id)}
+                        aria-label={`Agregar una unidad más de ${p.nombre} al carrito`}
+                      >
+                        <Plus className="size-4" aria-hidden="true" />
                       </Btn>
                     </div>
                   ) : (
-                    <Btn size="sm" onClick={() => add(p.id)}>
-                      <Plus className="size-4" /> Agregar
+                    <Btn size="sm" onClick={() => add(p.id)} aria-label={`Agregar ${p.nombre} al carrito`}>
+                      <Plus className="size-4" aria-hidden="true" /> Agregar
                     </Btn>
                   )}
                 </div>
@@ -88,18 +105,20 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
 
       {items.length > 0 && (
         <Card className="sticky bottom-2 border-primary/30 p-4 animate-pop">
-          <div className="flex items-center gap-3">
-            <ShoppingBasket className="size-5 text-primary" />
+          <div className="flex items-center gap-3" role="region" aria-label="Resumen del carrito" aria-live="polite">
+            <ShoppingBasket className="size-5 text-primary" aria-hidden="true" />
             <div className="flex-1">
               <p className="text-xs text-muted-foreground">
                 {items.reduce((s, i) => s + i.qty, 0)} producto(s)
               </p>
               <p className="font-display text-lg text-foreground">S/ {total.toFixed(2)}</p>
             </div>
-            <Btn variant="ghost" size="sm" onClick={() => setCart({})} aria-label="Vaciar carrito">
-              <Trash2 className="size-4" />
+            <Btn variant="ghost" size="sm" onClick={() => setCart({})} aria-label="Vaciar el carrito de compras">
+              <Trash2 className="size-4" aria-hidden="true" />
             </Btn>
-            <Btn onClick={() => setCheckout(true)}>Pagar</Btn>
+            <Btn onClick={() => setCheckout(true)} aria-label={`Pagar ${total.toFixed(2)} soles`}>
+              Pagar
+            </Btn>
           </div>
         </Card>
       )}
@@ -113,7 +132,7 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
         title="Finalizar compra"
       >
         {estado === "done" ? (
-          <div className="py-4 text-center animate-pop">
+          <div className="py-4 text-center animate-pop" role="status" aria-live="polite">
             <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/15">
               <Check className="size-7 text-primary" />
             </div>
@@ -152,19 +171,23 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Método de pago">
               <button
+                role="radio"
+                aria-checked={metodo === "qr"}
                 onClick={() => setMetodo("qr")}
-                className={`rounded-2xl border p-3 text-left transition-all ${metodo === "qr" ? "border-primary bg-primary/10" : "border-border"}`}
+                className={`tap-target rounded-2xl border p-3 text-left transition-all ${metodo === "qr" ? "border-primary bg-primary/10" : "border-border"}`}
               >
-                <QrCode className="size-5 text-primary" />
+                <QrCode className="size-5 text-primary" aria-hidden="true" />
                 <p className="mt-1 text-xs font-semibold">Yape / Plin</p>
               </button>
               <button
+                role="radio"
+                aria-checked={metodo === "tarjeta"}
                 onClick={() => setMetodo("tarjeta")}
-                className={`rounded-2xl border p-3 text-left transition-all ${metodo === "tarjeta" ? "border-accent bg-accent/10" : "border-border"}`}
+                className={`tap-target rounded-2xl border p-3 text-left transition-all ${metodo === "tarjeta" ? "border-accent bg-accent/10" : "border-border"}`}
               >
-                <CreditCard className="size-5 text-accent" />
+                <CreditCard className="size-5 text-accent" aria-hidden="true" />
                 <p className="mt-1 text-xs font-semibold">Tarjeta</p>
               </button>
             </div>
@@ -178,19 +201,36 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
               </div>
             ) : (
               <div className="space-y-2 animate-pop">
+                <label htmlFor="pago-tarjeta" className="sr-only">
+                  Número de tarjeta
+                </label>
                 <input
+                  id="pago-tarjeta"
+                  inputMode="numeric"
                   placeholder="Número de tarjeta"
-                  className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  className="min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <input
-                    placeholder="MM/AA"
-                    className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  />
-                  <input
-                    placeholder="CVV"
-                    className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  />
+                  <div>
+                    <label htmlFor="pago-vence" className="sr-only">
+                      Fecha de vencimiento, mes y año
+                    </label>
+                    <input
+                      id="pago-vence"
+                      placeholder="MM/AA"
+                      className="min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="pago-cvv" className="sr-only">
+                      Código de seguridad CVV
+                    </label>
+                    <input
+                      id="pago-cvv"
+                      placeholder="CVV"
+                      className="min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
+                    />
+                  </div>
                 </div>
               </div>
             )}
@@ -215,7 +255,11 @@ export function MarketTab({ isOnline, onQueued }: { isOnline: boolean; onQueued:
 function QrPlaceholder() {
   const cells = Array.from({ length: 81 }, (_, i) => (i * 7919) % 3 !== 0);
   return (
-    <div className="grid size-36 grid-cols-9 gap-0.5 rounded-xl bg-card p-2 shadow-soft">
+    <div
+      className="grid size-36 grid-cols-9 gap-0.5 rounded-xl bg-card p-2 shadow-soft"
+      role="img"
+      aria-label="Código QR simulado para pagar con Yape o Plin en el Mercado de Coina"
+    >
       {cells.map((on, i) => (
         <span key={i} className={on ? "rounded-[2px] bg-foreground" : "rounded-[2px] bg-card"} />
       ))}
