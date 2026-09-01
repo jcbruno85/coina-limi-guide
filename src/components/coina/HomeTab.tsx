@@ -26,8 +26,11 @@ export function HomeTab({ isOnline, onGoTo }: { isOnline: boolean; onGoTo: (t: s
 
   return (
     <div className="space-y-6 animate-fade-up">
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-hero p-6 text-primary-foreground shadow-lift">
-        <div className="absolute -right-10 -top-10 size-40 rounded-full bg-secondary/40 blur-2xl" />
+      <section
+        aria-label="Bienvenida a Coina"
+        className="relative overflow-hidden rounded-3xl bg-gradient-hero p-6 text-primary-foreground shadow-lift"
+      >
+        <div aria-hidden="true" className="absolute -right-10 -top-10 size-40 rounded-full bg-secondary/40 blur-2xl" />
         <Badge tone="sand" className="relative">
           <Mountain className="size-3" /> 1942 msnm · Alto Chicama
         </Badge>
@@ -39,7 +42,7 @@ export function HomeTab({ isOnline, onGoTo }: { isOnline: boolean; onGoTo: (t: s
         </p>
         <div className="relative mt-4 flex gap-2">
           <Btn variant="secondary" onClick={() => onGoTo("explora")}>
-            <MapPin className="size-4" /> Explorar rutas
+            <MapPin className="size-4" aria-hidden="true" /> Explorar rutas
           </Btn>
           <Btn
             variant="outline"
@@ -61,14 +64,14 @@ export function HomeTab({ isOnline, onGoTo }: { isOnline: boolean; onGoTo: (t: s
               <Skeleton className="h-4 w-2/3" />
             </div>
           ) : (
-            <div className="animate-pop">
+            <div className="animate-pop" role="status" aria-live="polite">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-display text-4xl text-foreground">{weather.temp}°C</p>
                   <p className="text-sm text-muted-foreground">{weather.estado}</p>
                 </div>
                 <div className="rounded-2xl bg-gradient-sun p-3 text-secondary-foreground shadow-soft">
-                  <CloudSun className="size-8" />
+                  <CloudSun className="size-8" aria-hidden="true" />
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">

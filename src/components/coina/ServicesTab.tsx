@@ -20,12 +20,14 @@ export function ServicesTab({ isOnline, onQueued }: { isOnline: boolean; onQueue
     <div className="space-y-5 animate-fade-up">
       <SectionTitle eyebrow="Directorio local" title="Servicios en Coina" />
 
-      <div className="flex gap-2 rounded-2xl bg-muted p-1">
+      <div className="flex gap-2 rounded-2xl bg-muted p-1" role="tablist" aria-label="Tipos de servicio">
         {subs.map((s) => (
           <button
             key={s.id}
+            role="tab"
+            aria-selected={sub === s.id}
             onClick={() => setSub(s.id)}
-            className={`flex-1 rounded-xl py-2 text-xs font-semibold transition-all duration-200 ${
+            className={`tap-target flex-1 rounded-xl py-2 text-xs font-semibold transition-all duration-200 ${
               sub === s.id ? "bg-card text-primary shadow-soft" : "text-muted-foreground"
             }`}
           >
@@ -184,7 +186,7 @@ function BookingSheet({
   return (
     <Sheet open={!!lodging} onClose={close} title={`Reservar en ${lodging?.nombre ?? ""}`}>
       {estado === "done" ? (
-        <div className="py-4 text-center animate-pop">
+        <div className="py-4 text-center animate-pop" role="status" aria-live="polite">
           <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/15">
             <Check className="size-7 text-primary" />
           </div>
@@ -207,7 +209,7 @@ function BookingSheet({
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               required
-              className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
+              className="min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
               placeholder="Juan Pérez"
             />
           </Field>
@@ -217,16 +219,31 @@ function BookingSheet({
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
               required
-              className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
+              className="min-h-11 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground"
             />
           </Field>
           <Field label="Noches">
             <div className="flex items-center gap-3">
-              <Btn variant="outline" size="sm" type="button" onClick={() => setNoches((n) => Math.max(1, n - 1))}>
+              <Btn
+                variant="outline"
+                size="sm"
+                type="button"
+                aria-label="Quitar una noche"
+                onClick={() => setNoches((n) => Math.max(1, n - 1))}
+              >
                 −
               </Btn>
-              <span className="font-display text-lg">{noches}</span>
-              <Btn variant="outline" size="sm" type="button" onClick={() => setNoches((n) => n + 1)}>
+              <span className="font-display text-lg" aria-live="polite">
+                {noches}
+                <span className="sr-only"> noche(s)</span>
+              </span>
+              <Btn
+                variant="outline"
+                size="sm"
+                type="button"
+                aria-label="Agregar una noche"
+                onClick={() => setNoches((n) => n + 1)}
+              >
                 +
               </Btn>
             </div>
