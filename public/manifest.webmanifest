@@ -1,0 +1,13 @@
+{
+  "name": "Coina Turística — Paraíso del Alto Chicama",
+  "short_name": "Coina",
+  "description": "Guía de ecoturismo y mercado de lima dulce de Coina, La Libertad, Perú. Funciona sin conexión.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#4CAF50",
+  "lang": "es-PE",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }
+  ]
+}
