@@ -51,8 +51,8 @@ export function Btn({
     <button
       {...rest}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100",
-        size === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2.5 text-sm",
+        "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100",
+        size === "sm" ? "min-w-11 px-3 py-2 text-xs" : "min-w-11 px-4 py-2.5 text-sm",
         variants[variant],
         className,
       )}
@@ -61,6 +61,7 @@ export function Btn({
     </button>
   );
 }
+
 
 export function Card({ children, className }: { children: ReactNode; className?: string | undefined }) {
   return <div className={cn("card-coina overflow-hidden", className)}>{children}</div>;
