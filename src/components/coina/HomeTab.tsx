@@ -32,7 +32,7 @@ export function HomeTab({ isOnline, onGoTo }: { isOnline: boolean; onGoTo: (t: s
       >
         <div aria-hidden="true" className="absolute -right-10 -top-10 size-40 rounded-full bg-secondary/40 blur-2xl" />
         <Badge tone="sand" className="relative">
-          <Mountain className="size-3" /> 1942 msnm · Alto Chicama
+          <Mountain className="size-3" aria-hidden="true" /> 1942 msnm · Alto Chicama
         </Badge>
         <h1 className="relative mt-3 text-[26px] leading-tight">
           ¡Respira de nuevo en el Paraíso del Alto Chicama!
