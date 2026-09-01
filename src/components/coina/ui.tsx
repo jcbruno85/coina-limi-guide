@@ -62,7 +62,7 @@ export function Btn({
   );
 }
 
-export function Card({ children, className }: { children: ReactNode; className?: string }) {
+export function Card({ children, className }: { children: ReactNode; className?: string | undefined }) {
   return <div className={cn("card-coina overflow-hidden", className)}>{children}</div>;
 }
 
@@ -115,6 +115,6 @@ export function Sheet({
   );
 }
 
-export function Skeleton({ className }: { className?: string }) {
+export function Skeleton({ className }: { className?: string | undefined }) {
   return <div className={cn("animate-pulse rounded-xl bg-muted", className)} />;
 }
