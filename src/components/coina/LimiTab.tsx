@@ -69,8 +69,12 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
 
   return (
     <div className="flex h-[calc(100dvh-13.5rem)] flex-col animate-fade-up">
-      <div className="mb-3 flex items-center gap-3 rounded-3xl bg-gradient-hero p-4 text-primary-foreground shadow-lift">
-        <div className="flex size-12 items-center justify-center rounded-2xl bg-card text-2xl shadow-soft">
+      <header className="mb-3 flex items-center gap-3 rounded-3xl bg-gradient-hero p-4 text-primary-foreground shadow-lift">
+        <div
+          className="flex size-12 items-center justify-center rounded-2xl bg-card text-2xl shadow-soft"
+          role="img"
+          aria-label="Avatar de Limi, guía virtual de Coina"
+        >
           🍋
         </div>
         <div>
@@ -81,12 +85,18 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
         </div>
         {!isOnline && (
           <Badge tone="sand" className="ml-auto">
-            <WifiOff className="size-3" /> Sin API
+            <WifiOff className="size-3" aria-hidden="true" /> Sin API
           </Badge>
         )}
-      </div>
+      </header>
 
-      <div className="flex-1 space-y-3 overflow-y-auto rounded-3xl bg-muted/60 p-3">
+      <section
+        aria-label="Conversación con Limi"
+        aria-live="polite"
+        aria-atomic="false"
+        role="log"
+        className="flex-1 space-y-3 overflow-y-auto rounded-3xl bg-muted/60 p-3"
+      >
         {msgs.map((m) => (
           <div key={m.id} className={`flex ${m.de === "yo" ? "justify-end" : "justify-start"}`}>
             <div
@@ -100,9 +110,10 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
               {m.de === "limi" && m.offline ? (
                 <button
                   onClick={() => escuchar(m.texto)}
-                  className="mt-2 flex items-center gap-1.5 rounded-xl bg-accent px-2.5 py-1.5 text-[11px] font-semibold text-accent-foreground"
+                  aria-label="Escuchar en voz alta la respuesta de Limi"
+                  className="tap-target mt-2 flex items-center gap-1.5 rounded-xl bg-accent px-2.5 py-1.5 text-[11px] font-semibold text-accent-foreground"
                 >
-                  <Volume2 className="size-3.5" /> Escuchar audio-guía
+                  <Volume2 className="size-3.5" aria-hidden="true" /> Escuchar audio-guía
                 </button>
               ) : null}
             </div>
@@ -110,7 +121,7 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
         ))}
         {pensando && (
           <div className="flex justify-start">
-            <div className="flex gap-1 rounded-2xl bg-card px-3.5 py-3 shadow-soft">
+            <div className="flex gap-1 rounded-2xl bg-card px-3.5 py-3 shadow-soft" aria-label="Limi está escribiendo">
               {[0, 150, 300].map((d) => (
                 <span
                   key={d}
@@ -122,14 +133,15 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
           </div>
         )}
         <div ref={endRef} />
-      </div>
+      </section>
 
       <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
         {quickQuestions.map((q) => (
           <button
             key={q}
             onClick={() => enviar(q)}
-            className="shrink-0 rounded-full border border-primary/30 bg-card px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+            aria-label={`Preguntar a Limi: ${q}`}
+            className="tap-target shrink-0 rounded-full border border-primary/40 bg-card px-4 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
           >
             {q}
           </button>
@@ -143,14 +155,18 @@ export function LimiTab({ isOnline }: { isOnline: boolean }) {
         }}
         className="mt-2 flex gap-2"
       >
+        <label htmlFor="limi-input" className="sr-only">
+          Escribe tu pregunta para Limi
+        </label>
         <input
+          id="limi-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Escríbele a Limi..."
-          className="flex-1 rounded-xl border border-input bg-card px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring"
+          className="min-h-11 flex-1 rounded-xl border border-input bg-card px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground"
         />
-        <Btn type="submit" disabled={pensando}>
-          <Send className="size-4" />
+        <Btn type="submit" disabled={pensando} aria-label="Enviar mensaje a Limi">
+          <Send className="size-4" aria-hidden="true" />
         </Btn>
       </form>
     </div>
