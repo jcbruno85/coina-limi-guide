@@ -9,7 +9,7 @@ export function Badge({
 }: {
   children: ReactNode;
   tone?: "primary" | "secondary" | "accent" | "sand";
-  className?: string;
+  className?: string | undefined;
 }) {
   const tones = {
     primary: "bg-primary/12 text-primary",
