@@ -149,27 +149,28 @@
   --foreground: oklch(0.26 0.02 145);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.26 0.02 145);
-  --primary: oklch(0.649 0.157 145.6);       /* #4CAF50 */
+  --primary: oklch(0.548 0.137 148.5);       /* #388E3C — verde accesible AA */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.878 0.174 96.5);      /* #FDD835 */
-  --secondary-foreground: oklch(0.28 0.05 90);
+  --secondary: oklch(0.822 0.163 84.5);      /* #FBC02D — amarillo accesible */
+  --secondary-foreground: oklch(0.25 0.045 85);
   --accent: oklch(0.494 0.166 259);          /* #1565C0 */
   --accent-foreground: oklch(1 0 0);
   --sand: oklch(0.958 0.032 106);            /* #F5F5DC */
-  --sand-foreground: oklch(0.32 0.03 100);
+  --sand-foreground: oklch(0.3 0.03 100);
   --muted: oklch(0.965 0.008 120);
-  --muted-foreground: oklch(0.53 0.02 140);
-  --border: oklch(0.905 0.015 120);
-  --input: oklch(0.905 0.015 120);
-  --ring: oklch(0.649 0.157 145.6);
+  --muted-foreground: oklch(0.46 0.02 140);  /* contraste >= 4.5:1 */
+  --border: oklch(0.885 0.015 120);
+  --input: oklch(0.82 0.015 120);
+  --ring: oklch(0.42 0.14 259);              /* foco azul alto contraste */
   --radius: 1rem;
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", "Open Sans", ui-sans-serif, system-ui, sans-serif;
-  --gradient-hero: linear-gradient(150deg, oklch(0.649 0.157 145.6), oklch(0.78 0.16 130) 55%, oklch(0.878 0.174 96.5));
-  --gradient-sun: linear-gradient(120deg, oklch(0.878 0.174 96.5), oklch(0.9 0.12 80));
-  --gradient-water: linear-gradient(140deg, oklch(0.494 0.166 259), oklch(0.68 0.13 235));
+  --gradient-hero: linear-gradient(150deg, oklch(0.5 0.13 148.5), oklch(0.6 0.14 135) 55%, oklch(0.52 0.12 110));
+  --gradient-sun: linear-gradient(120deg, oklch(0.822 0.163 84.5), oklch(0.86 0.13 80));
+  --gradient-water: linear-gradient(140deg, oklch(0.494 0.166 259), oklch(0.55 0.14 240));
   --shadow-soft: 0 10px 30px -12px oklch(0.45 0.06 145 / 0.35);
   --shadow-lift: 0 18px 40px -18px oklch(0.45 0.08 145 / 0.45);
+
 }
 
 @theme inline {
